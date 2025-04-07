@@ -1,0 +1,42 @@
+{
+  "name": "flutter-full-structure",
+  "displayName": "Flutter Full Structure Generator",
+"description": "A powerful Flutter extension that instantly generates a complete clean architecture project structure with a single command.",  "version": "0.0.2",
+  "publisher": "AbdalluhEssamElsayed",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/AbdalluhEssam/flutter_full_structure.git"
+},
+  "keywords": ["flutter", "clean architecture", "structure", "project generator"],
+  "icon": "icon.jpeg",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:flutter-full-structure.generate"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "flutter-full-structure.generate",
+        "title": "Generate Flutter Project Structure"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.70.0",
+    "@types/node": "^18.0.0",
+    "eslint": "^8.0.0",
+    "@vscode/test-electron": "^2.4.1"
+  }
+  
+}
