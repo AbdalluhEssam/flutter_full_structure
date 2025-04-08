@@ -32,9 +32,6 @@ void main(List<String> arguments) {
   _generateMainFiles(libDir, projectName);
   _generateAssetsFolder(assetsDir);
   _generatePubspecYaml(projectDir, projectName);
-  _generateGitignore(projectDir);
-  _generateReadme(projectDir, projectName);
-  _generateAnalysisOptions(projectDir);
 
   print('\\n✅ Project "\$projectName" structure generated successfully!');
 }
@@ -165,12 +162,95 @@ void _generateMainFiles(Directory libDir, String projectName) {
   }''');
 }
   
-// أضف جميع الدوال الأخرى هنا بنفس الطريقة كما في الكود الأصلي...
+void _generateAssetsFolder(Directory assetsDir) {
+  final subDirs = ['images', 'icons', 'lottie', 'lang', 'fonts'];
+  for (final dir in subDirs) {
+    _createDir(Directory(join(assetsDir.path, dir)));
+  }
+}
+
+
+void _generatePubspecYaml(Directory root, String name) {
+  final pubspec = File(join(root.path, 'pubspec.yaml'));
+  if (!pubspec.existsSync()) return;
+
+  final content = pubspec.readAsStringSync();
+  if (!content.contains('flutter_bloc')) {
+    pubspec.writeAsStringSync('''
+name: $name
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.7.2 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.0
+  dio: ^5.8.0+1
+  shared_preferences: ^2.2.2
+  easy_localization: ^3.0.7+1
+  intl:
+  equatable: ^2.0.7
+  get_it: ^8.0.3
+  cached_network_image: ^3.4.1
+  flutter_screenutil: ^5.9.3
+  flutter_animate: ^4.5.2
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
+  flutter_native_splash: ^2.4.5
+  animate_do: ^4.2.0
+  lottie: ^3.3.1
+  google_fonts: ^6.2.1
+  flutter_launcher_icons: ^0.14.3
+  animator: ^3.3.0
+  dartz: ^0.10.1
+  flutter_svg: ^2.0.7
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.4.6
+  freezed: ^3.0.4
+  json_serializable: ^6.6.2
+  bloc_test: ^10.0.0
+  mockito: ^5.3.2
+  flutter_lints: ^2.0.1
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/lottie/
+    - assets/lang/
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito-Bold.ttf
+        - asset: assets/fonts/Nunito-ExtraBold.ttf
+        - asset: assets/fonts/Nunito-Regular.ttf
+          weight: 700
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/glusfamily_logo.png
+  android_12:
+    image: assets/images/glusfamily_logo.png
+    color: "#FFFFFF"
+''');
+    print('📄 pubspec.yaml updated');
+  }
+}
 
 void _createDir(Directory dir) {
   if (!dir.existsSync()) {
     dir.createSync(recursive: true);
-    print('📁 Created directory: ${dir.path}');
+    print('📁 Created directory: \${dir.path}');
   }
 }
 
@@ -204,6 +284,8 @@ module.exports = {
 };
 
 function _capitalize(input) {
-	if (!input) return input; // التحقق من أن المدخل ليس فارغاً أو غير معرف
-	return input.charAt(0).toUpperCase() + input.slice(1); // استخدام charAt بدلاً من [0]
+  if (typeof input !== 'string' || input.length === 0) {
+    return input;  // في حال كان المدخل غير نصي أو فارغ، يرجع المدخل كما هو
   }
+  return input.charAt(0).toUpperCase() + input.slice(1); // استخدام charAt للوصول إلى أول حرف
+}

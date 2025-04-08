@@ -2,7 +2,7 @@
   "name": "flutter-full-structure",
   "displayName": "Flutter Full Structure Generator",
   "description": "A powerful Flutter extension that instantly generates a complete clean architecture project structure with a single command.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "AbdalluhEssamElsayed",
   "engines": {
     "vscode": "^1.70.0"
